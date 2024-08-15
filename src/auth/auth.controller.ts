@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Post, UseGuards } from '@nestjs/common';
 import { SignupDto } from './dto/signupDto';
 import { AuthService } from './auth.service';
 import { SigninDto } from './dto/signinDto';
-import { ResetPasswordDemandDtp } from './dto/resetPasswordDemandDto';
+import { ResetPassswordConfirmationDto,} from './dto/resetPassswordConfirmationDto';
+import { ResetPasswordDemandDto } from './dto/resetPasswordDemandDto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -18,7 +20,18 @@ export class AuthController {
     }
 
     @Post('reset-password')
-    resetPasswordDemand(@Body() resetPasswordDto : ResetPasswordDemandDtp){
+    resetPasswordDemand(@Body() resetPasswordDto : ResetPasswordDemandDto){
         return  this.authservice.resetPassword(resetPasswordDto)
     }
+
+    @Post('rest-password-confirmation')
+    resetPassswordConfirmation(@Body() resetPassswordConfirmationDto : ResetPassswordConfirmationDto){
+        return this.authservice.resetPassswordConfirmation(resetPassswordConfirmationDto)
+    }
+
+   /*  @UseGuards(AuthGuard('jwt'))
+    @Delete('delete')
+    deleteAccount(){
+        return 'Account delete'
+    } */
 }
